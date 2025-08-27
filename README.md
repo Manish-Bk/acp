@@ -1,12 +1,12 @@
 # Agent Communication Protocol (ACP)
 
-A demonstration project showcasing agent-to-agent communication using the ACP SDK. This project implements two distinct AI agents - a comedian cat and a poet dog - that communicate with each other through HTTP-based messaging.
+A demonstration project showcasing agent-to-agent communication using the ACP SDK. This project implements two distinct AI agents - a comedian and a poet - that communicate with each other through HTTP-based messaging.
 
-## 🐱 Project Overview
+## 🎭 Project Overview
 
 This project consists of:
-- **Cat Agent**: A comedy-focused AI agent that makes jokes and puns
-- **Dog Agent**: A poetry-focused AI agent that creates poems about friendship
+- **Comedian Agent**: A comedy-focused AI agent that makes jokes and puns
+- **Poem Writer Agent**: A poetry-focused AI agent that creates poems about friendship
 - **Client**: Orchestrates communication between the two agents
 
 ## 🚀 Features
@@ -21,11 +21,13 @@ This project consists of:
 
 ```
 acp/
-├── acp_client.py      # Client that orchestrates agent communication
-├── cat_server.py      # Comedy agent server (runs on port 8001)
-├── dog_server.py      # Poetry agent server (runs on port 8002)
-├── requirements.txt   # Python dependencies
-└── README.md         # This file
+├── acp_client.py              # Client that orchestrates agent communication
+├── comedian_server.py         # Comedy agent server (runs on port 8001)
+├── poem_writer_server.py      # Poetry agent server (runs on port 8002)
+├── requirements.txt           # Python dependencies
+├── .env                      # Environment variables (create from .example.env)
+├── .example.env              # Example environment variables file
+└── README.md                 # This file
 ```
 
 ## 🛠️ Prerequisites
@@ -46,12 +48,48 @@ acp/
    ```bash
    pip install -r requirements.txt
    ```
+   
+   **Note**: If you're using Windows, you might want to create a virtual environment first:
+   ```bash
+   python -m venv .venv
+   .venv\Scripts\activate
+   pip install -r requirements.txt
+   ```
 
 3. **Set up environment variables**:
-   Create a `.env` file in the project root:
+   Copy the example environment file and add your API key:
+   ```bash
+   copy .example.env .env
+   ```
+   
+   Then edit the `.env` file and add your OpenAI API key:
    ```env
    OPENAI_API_KEY=your_openai_api_key_here
    OPENAI_BASE_URL=your_openai_base_url_here
+   ```
+
+## ⚡ Quick Start
+
+1. **Install dependencies** (if not already done):
+   ```bash
+   pip install -r requirements.txt
+   ```
+
+2. **Set up your OpenAI API key** in the `.env` file
+
+3. **Start both servers** (in separate terminals):
+   ```bash
+   # Terminal 1
+   python comedian_server.py
+   
+   # Terminal 2  
+   python poem_writer_server.py
+   ```
+
+4. **Run the client**:
+   ```bash
+   python acp_client.py
+   ```
 
 ## 🚀 Usage
 
@@ -59,15 +97,15 @@ acp/
 
 You'll need to run the agent servers in separate terminals:
 
-1. **Start the Cat Agent Server**:
+1. **Start the Comedian Agent Server**:
    ```bash
-   python cat_server.py
+   python comedian_server.py
    ```
    This starts the comedy agent on `http://localhost:8001`
 
-2. **Start the Dog Agent Server** (in a new terminal):
+2. **Start the Poem Writer Agent Server** (in a new terminal):
    ```bash
-   python dog_server.py
+   python poem_writer_server.py
    ```
    This starts the poetry agent on `http://localhost:8002`
 
@@ -82,25 +120,25 @@ python acp_client.py
 ## 🎭 How It Works
 
 1. **Client Initialization**: The client creates connections to both agent servers
-2. **Cat Interaction**: Sends "Hello, how are you?" to the cat agent
-3. **Cat Response**: The cat agent responds with a joke or humorous comment
-4. **Dog Interaction**: Forwards the cat's response to the dog agent
-5. **Dog Response**: The dog agent creates a poem based on the cat's message
+2. **Comedian Interaction**: Sends "Hello, how are you?" to the comedian agent
+3. **Comedian Response**: The comedian agent responds with a joke or humorous comment
+4. **Poem Writer Interaction**: Forwards the comedian's response to the poem writer agent
+5. **Poem Writer Response**: The poem writer agent creates a poem based on the comedian's message
 6. **Output Display**: Both responses are displayed with color coding
 
 ### Sample Interaction Flow
 
 ```
-Client → Cat Agent: "Hello, how are you?"
-Cat Agent → Client: [Jokes/Puns response]
-Client → Dog Agent: [Cat's response]
-Dog Agent → Client: [Friendship poem response]
+Client → Comedian Agent: "Hello, how are you?"
+Comedian Agent → Client: [Jokes/Puns response]
+Client → Poem Writer Agent: [Comedian's response]
+Poem Writer Agent → Client: [Friendship poem response]
 ```
 
 ## 🎨 Output Colors
 
-- **Blue**: Cat agent responses (comedy)
-- **Yellow**: Dog agent responses (poetry)
+- **Blue**: Comedian agent responses (comedy)
+- **Yellow**: Poem writer agent responses (poetry)
 - **White**: Reset to default color
 
 ## 🔧 Configuration
@@ -109,14 +147,14 @@ Dog Agent → Client: [Friendship poem response]
 
 You can modify the agent prompts in their respective server files:
 
-- **Cat Agent**: Edit the prompt in `cat_server.py` (line 25)
-- **Dog Agent**: Edit the prompt in `dog_server.py` (line 25)
+- **Comedian Agent**: Edit the prompt in `comedian_server.py` (line 25)
+- **Poem Writer Agent**: Edit the prompt in `poem_writer_server.py` (line 25)
 
 ### Changing Ports
 
 Default ports can be modified:
-- Cat server: Port 8001 (change in `cat_server.py`)
-- Dog server: Port 8002 (change in `dog_server.py`)
+- Comedian server: Port 8001 (change in `comedian_server.py`)
+- Poem writer server: Port 8002 (change in `poem_writer_server.py`)
 
 Remember to update the client URLs accordingly.
 
@@ -125,41 +163,12 @@ Remember to update the client URLs accordingly.
 - **acp-sdk**: Core ACP communication framework
 - **langgraph**: Agent workflow management
 - **langchain-openai**: OpenAI model integration
-- **colorama**: Terminal color output
-- **python-dotenv**: Environment variable management
-
-## 🐛 Troubleshooting
-
-### Common Issues
-
-1. **Connection Refused**: Ensure both agent servers are running before starting the client
-2. **API Key Error**: Verify your OpenAI API key is correctly set in the `.env` file
-3. **Port Conflicts**: Check if ports 8001 and 8002 are available
-4. **Module Import Errors**: Ensure all dependencies are installed via `pip install -r requirements.txt`
+- **crewai**: Additional AI agent capabilities
+- **colorama**: Terminal color output (auto-installed with acp-sdk)
+- **python-dotenv**: Environment variable management (auto-installed with other packages)
 
 ### Checking Server Status
 
 Verify servers are running by checking:
-- Cat server: `http://localhost:8001`
-- Dog server: `http://localhost:8002`
-
-## 🤝 Contributing
-
-Feel free to contribute by:
-- Adding new agent personalities
-- Implementing additional tools for agents
-- Enhancing the communication protocol
-- Improving error handling
-
-## 📝 License
-
-[Add your license information here]
-
-## 🙋‍♂️ Support
-
-For questions or issues, please [create an issue](link-to-issues) or contact the development team.
-
----
-
-**Note**: This project is a demonstration of the ACP SDK capabilities and can be extended to support more complex multi-agent scenarios.
-
+- Comedian server: `http://localhost:8001`
+- Poem writer server: `http://localhost:8002`

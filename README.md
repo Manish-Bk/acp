@@ -1,4 +1,4 @@
-# Animal Communication Protocol (ACP)
+# Agent Communication Protocol (ACP)
 
 A demonstration project showcasing agent-to-agent communication using the ACP SDK. This project implements two distinct AI agents - a comedian cat and a poet dog - that communicate with each other through HTTP-based messaging.
 
@@ -162,3 +162,4 @@ For questions or issues, please [create an issue](link-to-issues) or contact the
 ---
 
 **Note**: This project is a demonstration of the ACP SDK capabilities and can be extended to support more complex multi-agent scenarios.
+
